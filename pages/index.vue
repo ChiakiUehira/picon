@@ -2,18 +2,12 @@
   <div>
     <v-list three-line>
       <template v-for="(item, index) in items">
-        <v-subheader
-          v-if="item.header"
-          :key="item.header"
-        >
-          {{ item.header }}
-        </v-subheader>
-
         <v-divider
-          v-else-if="item.divider"
+          v-if="item.divider"
           :key="index"
           :inset="item.inset"
-        ></v-divider>
+        >
+        </v-divider>
 
         <v-list-tile
           v-else
@@ -40,7 +34,6 @@
     data () {
       return {
         items: [
-          { header: 'Today' },
           {
             avatar: 'https://cdn.vuetifyjs.com/images/lists/1.jpg',
             title: 'Brunch this weekend?',
