@@ -5,7 +5,6 @@
 </template>
 
 <script>
-import firebase from 'firebase'
 import { mapActions } from 'vuex'
 export default {
   layout: 'login',
