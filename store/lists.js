@@ -63,33 +63,41 @@ export const state = () => ({
 })
 
 export const getters = {
-  currentList (state) {
+  currentListId (state) {
+    return state.currentListId
+  },
+  currentList (state, getters) {
     return state.lists.find((item) => {
-      return item.id === state.currentListId
+      return item.id === getters.currentListId
     })
   },
-  currentListEntries (state) {
+  currentListEntries (state, getters) {
     const currentList = state.lists.find((item) => {
-      return item.id === state.currentListId
+      return item.id === getters.currentListId
     })
     return currentList ? currentList.entries : []
   },
   lists (state) {
     return state.lists.map((list) => {
       return {
+        id: list.id,
         name: list.name
       }
     })
   },
-  openItems (state) {
-    return state.items.filter((item) => {
-      return !item.isClose
-    })
+  currentListOpenEntries (_, getters) {
+    if (getters.currentList) {
+      return getters.currentListEntries.filter((entry) => {
+        return !entry.isClose
+      })
+    }
   },
-  closeItems (state) {
-    return state.items.filter((item) => {
-      return item.isClose
-    })
+  currentListClosedEntries (_, getters) {
+    if (getters.currentList) {
+      return getters.currentListEntries.filter((entry) => {
+        return entry.isClose
+      })
+    }
   },
 }
 

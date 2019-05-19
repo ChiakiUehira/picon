@@ -41,6 +41,14 @@
             <v-list-tile-title>Assignee</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
+        <v-list-tile @click="selectList()">
+          <v-list-tile-action>
+            <v-icon>date_range</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title>Calendar</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
         <v-divider></v-divider>
         <v-list-tile v-for="list in lists" @click="selectList(list.id)" :key="list.id">
           <v-list-tile-action>

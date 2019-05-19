@@ -54,6 +54,10 @@ export default {
     '@nuxtjs/pwa',
   ],
 
+  generate: {
+    fallback: true,
+  },
+
   /*
   ** Build configuration
   */

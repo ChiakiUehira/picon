@@ -42,7 +42,8 @@ import { mapGetters, mapActions } from 'vuex'
 export default {
   methods: {
     ...mapActions('lists', [
-      'toggleStatesById'
+      'toggleStatesById',
+      'selectList'
     ]),
     toDetail (id) {
       this.$router.push('/entries/' + id)
@@ -53,6 +54,10 @@ export default {
       'currentListOpenEntries',
       'currentListClosedEntries',
     ])
+  },
+  created () {
+    const id = this.$route.params.id
+    this.selectList(Number(id))
   },
 }
 </script>
