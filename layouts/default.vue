@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-toolbar fixed>
+    <v-toolbar fixed app>
       <v-toolbar-side-icon></v-toolbar-side-icon>
       <v-toolbar-title>ToDo</v-toolbar-title>
       <v-spacer></v-spacer>
@@ -12,9 +12,7 @@
       </v-btn>
     </v-toolbar>
   <v-content>
-    <v-container fluid>
-      <nuxt/>
-    </v-container>
+    <nuxt/>
   </v-content>
   </v-app>
 </template>
