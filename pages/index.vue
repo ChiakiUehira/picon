@@ -6,7 +6,7 @@
         <div :key="item.title">
           <v-list-tile @click="">
             <v-list-tile-action>
-              <v-checkbox @change="toggleStatesById(item.id)" :value="item.isClose"></v-checkbox>
+              <v-checkbox @change="toggleStatesById(item.id)" :input-value="item.isClose"></v-checkbox>
             </v-list-tile-action>
             <v-list-tile-content to="/1">
               <v-list-tile-title v-html="item.title"></v-list-tile-title>
@@ -23,7 +23,7 @@
         <div :key="item.title">
           <v-list-tile @click="">
             <v-list-tile-action>
-              <v-checkbox @change="toggleStatesById(item.id)" :value="item.isClose"></v-checkbox>
+              <v-checkbox @change="toggleStatesById(item.id)" :input-value="item.isClose"></v-checkbox>
             </v-list-tile-action>
             <v-list-tile-content to="/1">
               <v-list-tile-title v-html="item.title"></v-list-tile-title>
