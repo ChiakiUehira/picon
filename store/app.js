@@ -1,14 +1,17 @@
 import firebase from '~/plugins/firebase.js'
 
 export const state = () => ({
-  token: null,
+  user: null,
   isOpenAddListDialog: false,
   isOpenAddItemBottomSheet: false,
 })
 
 export const getters = {
+  user (state) {
+    return state.user
+  },
   isLogged (state) {
-    return state.token !== null
+    return state.user !== null
   },
   isOpenAddListDialog (state) {
     return state.isOpenAddListDialog
@@ -19,8 +22,8 @@ export const getters = {
 }
 
 export const mutations = {
-  setToken (state, token) {
-    state.token = token
+  setUser (state, user) {
+    state.user = user
   },
   setIsOpenAddListDialog (state, is) {
     return state.isOpenAddListDialog = is
@@ -34,6 +37,15 @@ export const actions = {
   login ({ commit }) {
     const provider = new firebase.auth.GoogleAuthProvider()
     firebase.auth().signInWithRedirect(provider)
+  },
+  setUser ({ commit }, user) {
+    if (user) {
+      commit('setUser', {
+        name: user.displayName,
+        email: user.email,
+        photoURL: user.photoURL
+      })
+    }
   },
   openAddListDialog ({ commit }) {
     commit('setIsOpenAddListDialog', true)

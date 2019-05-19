@@ -14,16 +14,6 @@ export default {
       'login'
     ]),
   },
-  created() {
-    firebase.auth().getRedirectResult().then((result) => {
-    const token = result.credential.accessToken
-    console.log(token);
-    commit('setToken', token)
-    this.$router.push('/')
-  }).catch((error) => {
-
-  });
-  },
 }
 </script>
 
