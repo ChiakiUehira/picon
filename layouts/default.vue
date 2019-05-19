@@ -38,7 +38,7 @@
             <v-icon>list</v-icon>
           </v-list-tile-action>
           <v-list-tile-content>
-            <v-list-tile-title>アメ村天国</v-list-tile-title>
+            <v-list-tile-title>PICON</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
         <v-list-tile @click="openAddListDialog">
@@ -53,7 +53,7 @@
     </v-navigation-drawer>
     <v-toolbar fixed app dark color="primary">
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
-      <v-toolbar-title>アメ村天国</v-toolbar-title>
+      <v-toolbar-title>PICON</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-btn icon>
         <v-icon>person_add</v-icon>
@@ -66,15 +66,18 @@
       <nuxt/>
     </v-content>
     <app-add-list-dialog />
+    <app-add-item-bottom-sheet />
   </v-app>
 </template>
 
 <script>
 import { mapActions } from 'vuex'
 import AppAddListDialog from '~/containers/AppAddListDialog'
+import AppAddItemBottomSheet from '~/containers/AppAddItemBottomSheet'
 export default {
   components: {
     AppAddListDialog,
+    AppAddItemBottomSheet,
   },
   data () {
     return {
