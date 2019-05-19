@@ -12,10 +12,14 @@
             <v-list-tile-avatar>
               <img src="https://randomuser.me/api/portraits/men/85.jpg">
             </v-list-tile-avatar>
-
             <v-list-tile-content>
               <v-list-tile-title>John Leider</v-list-tile-title>
             </v-list-tile-content>
+            <v-list-tile-action>
+              <v-btn icon>
+                <v-icon>settings</v-icon>
+              </v-btn>
+            </v-list-tile-action>
           </v-list-tile>
         </v-list>
       </v-toolbar>
@@ -35,6 +39,14 @@
           </v-list-tile-action>
           <v-list-tile-content>
             <v-list-tile-title>アメ村天国</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+        <v-list-tile @click="">
+          <v-list-tile-action>
+            <v-icon>add</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title>新しいリストを作成</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
       </v-list>
