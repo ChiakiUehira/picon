@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-toolbar>
+    <v-toolbar fixed>
       <v-toolbar-side-icon></v-toolbar-side-icon>
       <v-toolbar-title>ToDo</v-toolbar-title>
       <v-spacer></v-spacer>
