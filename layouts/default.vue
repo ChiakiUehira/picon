@@ -1,8 +1,47 @@
 <template>
   <v-app>
+    <v-navigation-drawer
+      app
+      v-model="drawer"
+      fixed
+      left
+    >
+      <v-toolbar flat class="transparent">
+        <v-list class="pa-0">
+          <v-list-tile avatar>
+            <v-list-tile-avatar>
+              <img src="https://randomuser.me/api/portraits/men/85.jpg">
+            </v-list-tile-avatar>
+
+            <v-list-tile-content>
+              <v-list-tile-title>John Leider</v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
+        </v-list>
+      </v-toolbar>
+      <v-divider></v-divider>
+      <v-list class="pt-0">
+        <v-list-tile @click="">
+          <v-list-tile-action>
+            <v-icon>list</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title>やること</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+        <v-list-tile @click="">
+          <v-list-tile-action>
+            <v-icon>list</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title>アメ村天国</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+      </v-list>
+    </v-navigation-drawer>
     <v-toolbar fixed app>
-      <v-toolbar-side-icon></v-toolbar-side-icon>
-      <v-toolbar-title>ToDo</v-toolbar-title>
+      <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
+      <v-toolbar-title>アメ村天国</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-btn icon>
         <v-icon>person_add</v-icon>
@@ -19,5 +58,10 @@
 
 <script>
 export default {
+  data () {
+    return {
+      drawer: false,
+    }
+  }
 }
 </script>
