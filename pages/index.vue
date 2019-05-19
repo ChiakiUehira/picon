@@ -1,13 +1,14 @@
 <template>
   <div>
-    <v-list three-line class="pa-0">
+    <v-list subheader two-line class="pa-0">
+      <v-subheader>General</v-subheader>
       <template v-for="(item, index) in items">
         <div :key="item.title">
-          <v-list-tile>
+          <v-list-tile @click="">
             <v-list-tile-action>
               <v-checkbox v-model="item.isClose" ></v-checkbox>
             </v-list-tile-action>
-            <v-list-tile-content @click="item.isClose = !item.isClose">
+            <v-list-tile-content @click="">
               <v-list-tile-title v-html="item.title"></v-list-tile-title>
               <v-list-tile-sub-title v-html="item.subtitle"></v-list-tile-sub-title>
             </v-list-tile-content>

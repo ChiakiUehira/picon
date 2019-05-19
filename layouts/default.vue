@@ -71,6 +71,7 @@
         bottom
         right
         color="primary"
+        @click="openAddItemBottomSheet"
       >
         <v-icon>add</v-icon>
       </v-btn>
@@ -96,7 +97,8 @@ export default {
   },
   methods: {
     ...mapActions('app', [
-      'openAddListDialog'
+      'openAddListDialog',
+      'openAddItemBottomSheet'
     ])
   },
 }

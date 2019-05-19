@@ -1,20 +1,11 @@
 <template>
-  <v-bottom-sheet v-model="sheet">
+  <v-bottom-sheet v-model="isOpen">
     <v-list>
       <v-subheader>Open in</v-subheader>
       <v-list-tile
         v-for="tile in tiles"
         :key="tile.title"
-        @click="sheet = false"
       >
-        <v-list-tile-avatar>
-          <v-avatar size="32px" tile>
-            <img
-              :src="`https://cdn.vuetifyjs.com/images/bottom-sheets/${tile.img}`"
-              :alt="tile.title"
-            >
-          </v-avatar>
-        </v-list-tile-avatar>
         <v-list-tile-title>{{ tile.title }}</v-list-tile-title>
       </v-list-tile>
     </v-list>
@@ -22,18 +13,34 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex'
 export default {
+  watch: {
+    isOpenAddItemBottomSheet () {
+      if (this.isOpenAddItemBottomSheet) {
+        this.isOpen = this.isOpenAddItemBottomSheet
+      }
+    },
+    isOpen () {
+      this.closeAddItemBottomSheet()
+    }
+  },
+  methods: {
+    ...mapActions('app', [
+      'closeAddItemBottomSheet'
+    ])
+  },
+  computed: {
+    ...mapGetters('app', [
+      'isOpenAddItemBottomSheet'
+    ])
+  },
   data () {
     return {
-      sheet: true,
+      isOpen: false,
       tiles: [
-        { img: 'keep.png', title: 'Keep' },
-        { img: 'inbox.png', title: 'Inbox' },
-        { img: 'hangouts.png', title: 'Hangouts' },
-        { img: 'messenger.png', title: 'Messenger' },
-        { img: 'google.png', title: 'Google+' }
       ]
     }
-  }
+  },
 }
 </script>
