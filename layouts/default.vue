@@ -2,11 +2,12 @@
   <v-app>
     <v-navigation-drawer
       app
-      v-model="drawer"
       fixed
       left
+      @input="onNavigationDrawer"
+      :value="isOpenNavigationDrawer"
     >
-      <v-toolbar flat class="transparent">
+      <v-toolbar flat>
         <v-list class="pa-0">
           <v-list-tile avatar>
             <v-list-tile-avatar>
@@ -25,7 +26,7 @@
       </v-toolbar>
       <v-divider></v-divider>
       <v-list class="pt-0">
-        <v-list-tile @click="selectList()">
+        <v-list-tile @click="">
           <v-list-tile-action>
             <v-icon>assignment</v-icon>
           </v-list-tile-action>
@@ -33,7 +34,7 @@
             <v-list-tile-title>Tasks</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
-        <v-list-tile @click="selectList()">
+        <v-list-tile @click="">
           <v-list-tile-action>
             <v-icon>assignment_ind</v-icon>
           </v-list-tile-action>
@@ -41,7 +42,7 @@
             <v-list-tile-title>Assignee</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
-        <v-list-tile @click="selectList()">
+        <v-list-tile @click="">
           <v-list-tile-action>
             <v-icon>date_range</v-icon>
           </v-list-tile-action>
@@ -50,7 +51,7 @@
           </v-list-tile-content>
         </v-list-tile>
         <v-divider></v-divider>
-        <v-list-tile v-for="list in lists" @click="selectList(list.id)" :key="list.id">
+        <v-list-tile v-for="list in lists" @click="onSelectList(list.id)" :key="list.id">
           <v-list-tile-action>
             <v-icon>list</v-icon>
           </v-list-tile-action>
@@ -58,7 +59,7 @@
             <v-list-tile-title>{{list.name}}</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
-        <v-list-tile @click="openAddListDialog">
+        <v-list-tile @click="onAddList">
           <v-list-tile-action>
             <v-icon>add</v-icon>
           </v-list-tile-action>
@@ -69,7 +70,7 @@
       </v-list>
     </v-navigation-drawer>
     <v-toolbar fixed app dark color="primary">
-      <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
+      <v-toolbar-side-icon @click.stop="openNavigationDrawer"></v-toolbar-side-icon>
       <v-toolbar-title>Tasks</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-btn icon>
@@ -106,27 +107,39 @@ export default {
     AppAddListDialog,
     AppAddItemBottomSheet,
   },
-  data () {
-    return {
-      drawer: false,
-    }
-  },
   computed: {
     ...mapGetters('app', [
-      'user'
+      'user',
+      'isOpenNavigationDrawer'
     ]),
     ...mapGetters('lists', [
       'lists'
     ])
   },
   methods: {
+    onNavigationDrawer (is) {
+      if (is) {
+        this.openNavigationDrawer()
+      } else {
+        this.closeNavigationDrawer()
+      }
+    },
+    onSelectList (id) {
+      this.closeNavigationDrawer()
+      this.$router.push('/lists/' + id)
+    },
+    onAddList () {
+      this.closeNavigationDrawer()
+      setTimeout(() => {
+        this.openAddListDialog()
+      }, 100);
+    },
     ...mapActions('app', [
+      'openNavigationDrawer',
+      'closeNavigationDrawer',
       'openAddListDialog',
-      'openAddItemBottomSheet'
+      'openAddItemBottomSheet',
     ]),
-    ...mapActions('lists', [
-      'selectList'
-    ])
   },
 }
 </script>

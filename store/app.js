@@ -4,6 +4,7 @@ export const state = () => ({
   user: null,
   isOpenAddListDialog: false,
   isOpenAddItemBottomSheet: false,
+  isOpenNavigationDrawer: false,
 })
 
 export const getters = {
@@ -18,12 +19,18 @@ export const getters = {
   },
   isOpenAddItemBottomSheet (state) {
     return state.isOpenAddItemBottomSheet
+  },
+  isOpenNavigationDrawer (state) {
+    return state.isOpenNavigationDrawer
   }
 }
 
 export const mutations = {
   setUser (state, user) {
     state.user = user
+  },
+  setIsOpenNavigationDrawer (state, is) {
+    return state.isOpenNavigationDrawer = is
   },
   setIsOpenAddListDialog (state, is) {
     return state.isOpenAddListDialog = is
@@ -46,6 +53,15 @@ export const actions = {
         photoURL: user.photoURL
       })
     }
+  },
+  toggleNavigationDrawer ({ getters, commit }) {
+    commit('setIsOpenNavigationDrawer', !getters.isOpenNavigationDrawer)
+  },
+  openNavigationDrawer ({ commit }) {
+    commit('setIsOpenNavigationDrawer', true)
+  },
+  closeNavigationDrawer ({ commit }) {
+    commit('setIsOpenNavigationDrawer', false)
   },
   openAddListDialog ({ commit }) {
     commit('setIsOpenAddListDialog', true)
