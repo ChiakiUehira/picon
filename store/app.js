@@ -33,13 +33,7 @@ export const mutations = {
 export const actions = {
   login ({ commit }) {
     const provider = new firebase.auth.GoogleAuthProvider()
-    firebase.auth().signInWithPopup(provider).then((result) => {
-      const token = result.credential.accessToken
-      commit('setToken', token)
-      this.$router.push('/')
-    }).catch((error) => {
-
-    });
+    firebase.auth().signInWithRedirect(provider)
   },
   openAddListDialog ({ commit }) {
     commit('setIsOpenAddListDialog', true)
