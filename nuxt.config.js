@@ -22,6 +22,9 @@ export default {
       }
     ]
   },
+  router: {
+    middleware: 'auth'
+  },
 
   /*
   ** Customize the progress-bar color

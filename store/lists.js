@@ -54,7 +54,7 @@ export const state = () => ({
 
 export const getters = {
   items (state) {
-    return items
+    return state.items
   },
   openItems (state) {
     return state.items.filter((item) => {

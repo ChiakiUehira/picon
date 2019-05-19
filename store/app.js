@@ -36,6 +36,7 @@ export const actions = {
     firebase.auth().signInWithPopup(provider).then((result) => {
       const token = result.credential.accessToken
       commit('setToken', token)
+      this.$router.push('/')
     }).catch((error) => {
 
     });

@@ -1,12 +1,13 @@
 <template>
   <section class="container">
-    <el-button @click="login" type="primary" icon="el-icon-user-solid">Googleでログイン</el-button>
+    <v-btn @click="login" dark color="primary">Googleでログイン</v-btn>
   </section>
 </template>
 
 <script>
 import { mapActions } from 'vuex'
 export default {
+  layout: 'login',
   methods : {
     ...mapActions('app', [
       'login'
