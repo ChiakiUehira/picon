@@ -59,11 +59,21 @@
         <v-icon>person_add</v-icon>
       </v-btn>
       <v-btn icon>
-        <v-icon>add_circle</v-icon>
+        <v-icon>more_vert</v-icon>
       </v-btn>
     </v-toolbar>
     <v-content>
       <nuxt/>
+      <v-btn
+        fixed
+        dark
+        fab
+        bottom
+        right
+        color="primary"
+      >
+        <v-icon>add</v-icon>
+      </v-btn>
     </v-content>
     <app-add-list-dialog />
     <app-add-item-bottom-sheet />
