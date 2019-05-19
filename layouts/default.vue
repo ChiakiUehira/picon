@@ -41,7 +41,7 @@
             <v-list-tile-title>アメ村天国</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
-        <v-list-tile @click="">
+        <v-list-tile @click="openAddListDialog">
           <v-list-tile-action>
             <v-icon>add</v-icon>
           </v-list-tile-action>
@@ -51,7 +51,7 @@
         </v-list-tile>
       </v-list>
     </v-navigation-drawer>
-    <v-toolbar fixed app>
+    <v-toolbar fixed app dark color="primary">
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
       <v-toolbar-title>アメ村天国</v-toolbar-title>
       <v-spacer></v-spacer>
@@ -62,18 +62,29 @@
         <v-icon>add_circle</v-icon>
       </v-btn>
     </v-toolbar>
-  <v-content>
-    <nuxt/>
-  </v-content>
+    <v-content>
+      <nuxt/>
+    </v-content>
+    <app-add-list-dialog />
   </v-app>
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+import AppAddListDialog from '~/containers/AppAddListDialog'
 export default {
+  components: {
+    AppAddListDialog,
+  },
   data () {
     return {
       drawer: false,
     }
-  }
+  },
+  methods: {
+    ...mapActions('app', [
+      'openAddListDialog'
+    ])
+  },
 }
 </script>

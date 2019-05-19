@@ -1,18 +1,25 @@
 import firebase from '~/plugins/firebase.js'
 
 export const state = () => ({
-  token: null
+  token: null,
+  isOpenAddListDialog: false,
 })
 
 export const getters = {
   isLogged (state) {
     return state.token !== null
+  },
+  isOpenAddListDialog (state) {
+    return state.isOpenAddListDialog
   }
 }
 
 export const mutations = {
   setToken (state, token) {
     state.token = token
+  },
+  setIsOpenAddListDialog (state, is) {
+    return state.isOpenAddListDialog = is
   }
 }
 
@@ -25,5 +32,11 @@ export const actions = {
     }).catch((error) => {
 
     });
+  },
+  openAddListDialog ({ commit }) {
+    commit('setIsOpenAddListDialog', true)
+  },
+  closeAddListDialog ({ commit }) {
+    commit('setIsOpenAddListDialog', false)
   }
 }
