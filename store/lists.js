@@ -2,66 +2,7 @@ import { db } from '~/plugins/firebase'
 import { firestoreAction } from 'vuexfire'
 export const state = () => ({
   currentListId: null,
-  lists: [
-    {
-      id: 1,
-      name: 'Picon',
-      entries: [
-        {
-          id: 1,
-          title: 'ログイン機能の実装',
-          description: '',
-          date: '',
-          isClose: true
-        },
-        {
-          id: 2,
-          title: '共有機能の作成',
-          description: '',
-          date: '',
-          isClose: false
-        },
-        {
-          id: 3,
-          title: 'Firebaseとの連結',
-          description: '',
-          date: '',
-          isClose: false
-        },
-        {
-          id: 4,
-          title: 'デザインのFIX',
-          isClose: false
-        },
-        {
-          id: 5,
-          title: 'アイテム追加機能の実装',
-          isClose: false
-        },
-        {
-          id: 6,
-          title: 'アイテム削除機能の実装',
-          description: '',
-          date: '',
-          isClose: false
-        },
-        {
-          id: 7,
-          title: 'リスト追加機能の実装',
-          description: '',
-          date: '',
-          isClose: false
-        },
-        {
-          id: 8,
-          title: 'リスト削除機能の実装',
-          description: '',
-          date: '',
-          isClose: false
-        },
-      ]
-    }
-  ]
+  lists: []
 })
 
 export const getters = {
@@ -73,43 +14,33 @@ export const getters = {
       return item.id === getters.currentListId
     })
   },
-  currentListEntries (state, getters) {
-    const currentList = state.lists.find((item) => {
-      return item.id === getters.currentListId
-    })
-    return currentList ? currentList.entries : []
+  currentListEntries (_, getters) {
+    if (getters.currentList) {
+      return getters.currentList.entryRefs
+    } else {
+      return []
+    }
   },
   lists (state) {
-    return state.lists.map((list) => {
-      return {
-        id: list.id,
-        name: list.name
-      }
-    })
+    return state.lists
   },
   currentListOpenEntries (_, getters) {
-    if (getters.currentList) {
+    if (getters.currentListEntries.length) {
       return getters.currentListEntries.filter((entry) => {
-        return !entry.isClose
+        return !entry.isCompleted
       })
     }
   },
   currentListClosedEntries (_, getters) {
-    if (getters.currentList) {
+    if (getters.currentListEntries.length) {
       return getters.currentListEntries.filter((entry) => {
-        return entry.isClose
+        return entry.isCompleted
       })
     }
   },
 }
 
 export const mutations = {
-  setStates (state, id) {
-    const item = state.items.find((item) => {
-      return item.id === id
-    })
-    item.isClose = !item.isClose
-  },
   setCurrentListId (state, id) {
     state.currentListId = id
   }
@@ -119,10 +50,10 @@ export const actions = {
   bindLists: firestoreAction(({ bindFirestoreRef }) => {
     return bindFirestoreRef('lists', db.collection('lists'))
   }),
-  toggleStatesById ({ commit }, id) {
-    commit('setStates', id)
+  setEntryIsCompletedById (_, {id, is}) {
+    return db.collection('entries').doc(id).update({isCompleted: is})
   },
-  selectList ({commit}, id) {
+  setCurrentList ({commit}, id) {
     commit('setCurrentListId', id)
-  }
+  },
 }

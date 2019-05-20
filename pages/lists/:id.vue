@@ -7,7 +7,7 @@
         <div :key="item.title">
           <v-list-tile @click="">
             <v-list-tile-action>
-              <v-checkbox @change="toggleStatesById(item.id)" :input-value="item.isClose"></v-checkbox>
+              <v-checkbox @change="onCheckbox(item.id, !item.isCompleted)" :input-value="item.isClose"></v-checkbox>
             </v-list-tile-action>
             <v-list-tile-content @click="toDetail(item.id)">
               <v-list-tile-title v-html="item.title"></v-list-tile-title>
@@ -24,7 +24,7 @@
         <div :key="item.title">
           <v-list-tile @click="">
             <v-list-tile-action>
-              <v-checkbox @change="toggleStatesById(item.id)" :input-value="item.isClose"></v-checkbox>
+              <v-checkbox @change="onCheckbox(item.id, !item.isCompleted)" :input-value="item.isClose"></v-checkbox>
             </v-list-tile-action>
             <v-list-tile-content @click="toDetail(item.id)">
               <v-list-tile-title v-html="item.title"></v-list-tile-title>
@@ -42,9 +42,12 @@ import { mapGetters, mapActions } from 'vuex'
 export default {
   methods: {
     ...mapActions('lists', [
-      'toggleStatesById',
-      'selectList'
+      'setEntryIsCompletedById',
+      'setCurrentList'
     ]),
+    onCheckbox (id, is) {
+      this.setEntryIsCompletedById({id, is})
+    },
     toDetail (id) {
       this.$router.push('/entries/' + id)
     }
@@ -57,7 +60,7 @@ export default {
   },
   created () {
     const id = this.$route.params.id
-    this.selectList(Number(id))
+    this.setCurrentList(id)
   },
 }
 </script>
