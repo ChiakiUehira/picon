@@ -9,13 +9,13 @@
       </v-toolbar>
       <v-card-text>
         <v-container>
-          <v-text-field label="リスト名" required></v-text-field>
+          <v-text-field v-model="name" label="リスト名" required></v-text-field>
         </v-container>
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn color="blue" flat @click="closeAddListDialog">キャンセル</v-btn>
-        <v-btn color="primary" flat @click="closeAddListDialog">作成</v-btn>
+        <v-btn color="primary" flat @click="onCreate">作成</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -24,10 +24,23 @@
 <script>
   import { mapGetters, mapActions } from 'vuex'
   export default {
+    data () {
+      return {
+        name: ''
+      }
+    },
     methods: {
+      onCreate () {
+        this.createList({ name: this.name })
+        this.name = ''
+        this.closeAddListDialog()
+      },
       ...mapActions('app', [
         'closeAddListDialog'
-      ])
+      ]),
+      ...mapActions('lists', [
+        'createList',
+    ])
     },
     computed: {
       ...mapGetters('app', [

@@ -6,6 +6,7 @@ export const state = () => ({
   isOpenAddListDialog: false,
   isOpenAddItemBottomSheet: false,
   isOpenNavigationDrawer: false,
+  currentPageName: 'Tasks'
 })
 
 export const getters = {
@@ -23,6 +24,9 @@ export const getters = {
   },
   isOpenNavigationDrawer (state) {
     return state.isOpenNavigationDrawer
+  },
+  currentPageName (state) {
+    return state.currentPageName
   }
 }
 
@@ -31,14 +35,17 @@ export const mutations = {
     state.user = user
   },
   setIsOpenNavigationDrawer (state, is) {
-    return state.isOpenNavigationDrawer = is
+    state.isOpenNavigationDrawer = is
   },
   setIsOpenAddListDialog (state, is) {
-    return state.isOpenAddListDialog = is
+    state.isOpenAddListDialog = is
   },
   setIsOpenAddItemBottomSheet (state, is) {
-    return state.isOpenAddItemBottomSheet = is
+    state.isOpenAddItemBottomSheet = is
   },
+  setCurrentPageName (state, name) {
+    state.currentPageName = name
+  }
 }
 
 export const actions = {
@@ -70,4 +77,7 @@ export const actions = {
   closeAddItemBottomSheet({ commit }) {
     commit('setIsOpenAddItemBottomSheet', false)
   },
+  setCurrentPageName ({ commit }, name) {
+    commit('setCurrentPageName', name)
+  }
 }

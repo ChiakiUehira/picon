@@ -51,7 +51,7 @@
           </v-list-tile-content>
         </v-list-tile>
         <v-divider></v-divider>
-        <v-list-tile v-for="list in lists" @click="onSelectList(list.id)" :key="list.id">
+        <v-list-tile v-for="list in lists" @click="onSelectList(list.id, list.name)" :key="list.id">
           <v-list-tile-action>
             <v-icon>list</v-icon>
           </v-list-tile-action>
@@ -71,7 +71,7 @@
     </v-navigation-drawer>
     <v-toolbar fixed app dark color="primary">
       <v-toolbar-side-icon @click.stop="openNavigationDrawer"></v-toolbar-side-icon>
-      <v-toolbar-title>Tasks</v-toolbar-title>
+      <v-toolbar-title>{{currentPageName}}</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-btn icon>
         <v-icon>person_add</v-icon>
@@ -103,9 +103,6 @@ import { mapActions, mapGetters } from 'vuex'
 import AppAddListDialog from '~/containers/AppAddListDialog'
 import AppAddItemBottomSheet from '~/containers/AppAddItemBottomSheet'
 export default {
-  created() {
-    this.bindLists()
-  },
   components: {
     AppAddListDialog,
     AppAddItemBottomSheet,
@@ -113,6 +110,7 @@ export default {
   computed: {
     ...mapGetters('app', [
       'user',
+      'currentPageName',
       'isOpenNavigationDrawer'
     ]),
     ...mapGetters('lists', [
@@ -127,8 +125,9 @@ export default {
         this.closeNavigationDrawer()
       }
     },
-    onSelectList (id) {
+    onSelectList (id, name) {
       this.closeNavigationDrawer()
+      this.setCurrentPageName(name)
       this.$router.push('/lists/' + id)
     },
     onAddList () {
@@ -137,15 +136,13 @@ export default {
         this.openAddListDialog()
       }, 100);
     },
-    ...mapActions('lists', [
-      'bindLists'
-    ]),
     ...mapActions('app', [
+      'setCurrentPageName',
       'openNavigationDrawer',
       'closeNavigationDrawer',
       'openAddListDialog',
       'openAddItemBottomSheet',
-    ]),
+    ])
   },
 }
 </script>

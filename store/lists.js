@@ -3,12 +3,15 @@ import { firestoreAction } from 'vuexfire'
 export const state = () => ({
   currentListId: null,
   currentEntryId: null,
-  lists: []
 })
 
 export const getters = {
-  lists (state) {
-    return state.lists.lists || []
+  lists (state, _,rootState) {
+    if (rootState.app.user) {
+      return rootState.app.user.lists || []
+    } else {
+      return []
+    }
   },
   currentListId (state) {
     return state.currentListId
@@ -20,7 +23,7 @@ export const getters = {
   },
   currentListEntries (_, getters) {
     if (getters.currentList) {
-      return getters.currentList.entryRefs
+      return getters.currentList.entries
     } else {
       return []
     }
@@ -55,11 +58,26 @@ export const mutations = {
 }
 
 export const actions = {
-  bindLists: firestoreAction(({ bindFirestoreRef }) => {
-    return bindFirestoreRef('lists', db.collection('users').doc('uZSs3sNkfOTUp3DGOsNi6QdhCZF3'))
-  }),
   setEntryIsCompletedById (_, {id, is}) {
     return db.collection('entries').doc(id).update({isCompleted: is})
+  },
+  createList ({getters, rootGetters}, { name }) {
+    db.collection('lists').add({
+      name,
+      author: db.doc(`users/${rootGetters['app/user'].id}`),
+      entries: []
+    }).then((ref) => {
+      const listRef = db.doc(`lists/${ref.id}`)
+      const userListRefs = getters.lists.map((list) => {
+        return db.doc(`lists/${list.id}`)
+      })
+      db.doc(`users/${rootGetters['app/user'].id}`).update({
+        lists: [
+          ...userListRefs,
+          listRef
+        ]
+      })
+    })
   },
   setCurrentList ({commit}, id) {
     commit('setCurrentListId', id)
