@@ -1,3 +1,5 @@
+import { db } from '~/plugins/firebase'
+import { firestoreAction } from 'vuexfire'
 export const state = () => ({
   currentListId: null,
   lists: [
@@ -102,9 +104,6 @@ export const getters = {
 }
 
 export const mutations = {
-  setToken (state, token) {
-    state.token = token
-  },
   setStates (state, id) {
     const item = state.items.find((item) => {
       return item.id === id
@@ -117,6 +116,9 @@ export const mutations = {
 }
 
 export const actions = {
+  bindLists: firestoreAction(({ bindFirestoreRef }) => {
+    return bindFirestoreRef('lists', db.collection('lists'))
+  }),
   toggleStatesById ({ commit }, id) {
     commit('setStates', id)
   },

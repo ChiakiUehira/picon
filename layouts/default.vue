@@ -103,6 +103,9 @@ import { mapActions, mapGetters } from 'vuex'
 import AppAddListDialog from '~/containers/AppAddListDialog'
 import AppAddItemBottomSheet from '~/containers/AppAddItemBottomSheet'
 export default {
+  created() {
+    this.bindLists()
+  },
   components: {
     AppAddListDialog,
     AppAddItemBottomSheet,
@@ -134,6 +137,9 @@ export default {
         this.openAddListDialog()
       }, 100);
     },
+    ...mapActions('lists', [
+      'bindLists'
+    ]),
     ...mapActions('app', [
       'openNavigationDrawer',
       'closeNavigationDrawer',
