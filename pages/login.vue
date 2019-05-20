@@ -5,6 +5,7 @@
 </template>
 
 <script>
+import auth from '~/plugins/auth'
 import { mapActions } from 'vuex'
 export default {
   layout: 'login',
@@ -13,6 +14,15 @@ export default {
       'login'
     ]),
   },
+  created () {
+    auth()
+    .then((user) => {
+      return this.$store.dispatch('app/setUser', user)
+    })
+    .then(() => {
+      this.$router.push('/')
+    })
+  }
 }
 </script>
 

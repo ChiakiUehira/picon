@@ -1,4 +1,5 @@
-import firebase from '~/plugins/firebase.js'
+import { firebase, db } from '~/plugins/firebase'
+import { firestoreAction } from 'vuexfire'
 
 export const state = () => ({
   user: null,
@@ -41,19 +42,13 @@ export const mutations = {
 }
 
 export const actions = {
-  login ({ commit }) {
+  login () {
     const provider = new firebase.auth.GoogleAuthProvider()
     firebase.auth().signInWithRedirect(provider)
   },
-  setUser ({ commit }, user) {
-    if (user) {
-      commit('setUser', {
-        name: user.displayName,
-        email: user.email,
-        photoURL: user.photoURL
-      })
-    }
-  },
+  setUser: firestoreAction(({ bindFirestoreRef }, user) => {
+    return bindFirestoreRef('user', db.collection('users').doc(user.uid))
+  }),
   toggleNavigationDrawer ({ getters, commit }) {
     commit('setIsOpenNavigationDrawer', !getters.isOpenNavigationDrawer)
   },

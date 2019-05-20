@@ -7,7 +7,7 @@
         <div :key="item.title">
           <v-list-tile @click="">
             <v-list-tile-action>
-              <v-checkbox @change="onCheckbox(item.id, !item.isCompleted)" :input-value="item.isClose"></v-checkbox>
+              <v-checkbox @change="onCheckbox(item.id, !item.isCompleted)" :input-value="item.isCompleted"></v-checkbox>
             </v-list-tile-action>
             <v-list-tile-content @click="toDetail(item.id)">
               <v-list-tile-title v-html="item.title"></v-list-tile-title>
@@ -24,7 +24,7 @@
         <div :key="item.title">
           <v-list-tile @click="">
             <v-list-tile-action>
-              <v-checkbox @change="onCheckbox(item.id, !item.isCompleted)" :input-value="item.isClose"></v-checkbox>
+              <v-checkbox @change="onCheckbox(item.id, !item.isCompleted)" :input-value="item.isCompleted"></v-checkbox>
             </v-list-tile-action>
             <v-list-tile-content @click="toDetail(item.id)">
               <v-list-tile-title v-html="item.title"></v-list-tile-title>
