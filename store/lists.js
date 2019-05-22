@@ -96,4 +96,20 @@ export const actions = {
   setCurrentEntryId ({commit}, id) {
     commit('setCurrentEntryId', id)
   },
+  async createEntry ({ rootGetters }, { list, payload }) {
+    const entry = await db.collection('entries').add({
+      name: payload.name,
+      author: db.doc(`users/${rootGetters['app/currentUser'].id}`),
+      isCompleted: false,
+      datatime: payload.datatime,
+      assignee: payload.assignee,
+      description: payload.description
+    })
+    return db.collection('lists').doc(list.id).update({
+      entries: [
+        entry,
+        ...list.entries.map((entity) => db.doc(`entries/${entity.id}`)),
+      ]
+    })
+  }
 }
