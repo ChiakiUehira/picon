@@ -15,13 +15,6 @@ export default {
     ]),
   },
   created () {
-    auth()
-    .then((user) => {
-      return this.$store.dispatch('app/setUser', user)
-    })
-    .then(() => {
-      this.$router.push('/')
-    })
   }
 }
 </script>

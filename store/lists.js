@@ -7,8 +7,8 @@ export const state = () => ({
 
 export const getters = {
   lists (state, _,rootState) {
-    if (rootState.app.user) {
-      return rootState.app.user.lists || []
+    if (rootState.app.currentUser) {
+      return rootState.app.currentUser.lists || []
     } else {
       return []
     }

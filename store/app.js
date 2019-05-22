@@ -2,7 +2,8 @@ import { firebase, db } from '~/plugins/firebase'
 import { firestoreAction } from 'vuexfire'
 
 export const state = () => ({
-  user: null,
+  currentUser: null,
+  hasAccount: false,
   isOpenAddListDialog: false,
   isOpenAddItemBottomSheet: false,
   isOpenNavigationDrawer: false,
@@ -10,11 +11,14 @@ export const state = () => ({
 })
 
 export const getters = {
-  user (state) {
-    return state.user
+  hasAccount (state) {
+    return state.hasAccount
+  },
+  currentUser (state) {
+    return state.currentUser
   },
   isLogged (state) {
-    return state.user !== null
+    return firebase.auth().currentUser !== null
   },
   isOpenAddListDialog (state) {
     return state.isOpenAddListDialog
@@ -31,8 +35,8 @@ export const getters = {
 }
 
 export const mutations = {
-  setUser (state, user) {
-    state.user = user
+  setHasAccount (state, is) {
+    state.hasAccount = is
   },
   setIsOpenNavigationDrawer (state, is) {
     state.isOpenNavigationDrawer = is
@@ -49,12 +53,30 @@ export const mutations = {
 }
 
 export const actions = {
+  async setHasAccount ({ commit }, uuid) {
+    const doc = await db.collection('users').doc(uuid).get()
+    commit('setHasAccount', doc.exists)
+  },
+  createAccount (_, payload) {
+    return db.collection('users').doc(payload.uuid).set({
+      displayName: payload.displayName,
+      email: payload.email,
+      thumbnail: payload.thumbnail,
+      username: payload.username,
+      lists: [],
+    })
+  },
   login () {
     const provider = new firebase.auth.GoogleAuthProvider()
     firebase.auth().signInWithRedirect(provider)
   },
-  setUser: firestoreAction(({ bindFirestoreRef }, user) => {
-    return bindFirestoreRef('user', db.collection('users').doc(user.uid))
+  logout () {
+    firebase.auth().signOut().then(() => {
+
+    })
+  },
+  setCurrentUser: firestoreAction(({ bindFirestoreRef }, uuid) => {
+    return bindFirestoreRef('currentUser', db.collection('users').doc(uuid))
   }),
   toggleNavigationDrawer ({ getters, commit }) {
     commit('setIsOpenNavigationDrawer', !getters.isOpenNavigationDrawer)

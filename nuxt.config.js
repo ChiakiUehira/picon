@@ -45,6 +45,7 @@ export default {
     '@/plugins/vuetify',
     '@/plugins/firebase',
     '@/plugins/auth',
+    '@/plugins/init',
   ],
 
   /*

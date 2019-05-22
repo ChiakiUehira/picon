@@ -9,15 +9,15 @@
     >
       <v-toolbar flat>
         <v-list class="pa-0">
-          <v-list-tile avatar>
+          <v-list-tile avatar v-if="currentUser">
             <v-list-tile-avatar>
-              <img :src="user.thumbnail">
+              <img :src="currentUser.thumbnail">
             </v-list-tile-avatar>
             <v-list-tile-content>
-              <v-list-tile-title>{{user.displayName}}</v-list-tile-title>
+              <v-list-tile-title>{{currentUser.displayName}}</v-list-tile-title>
             </v-list-tile-content>
             <v-list-tile-action>
-              <v-btn icon>
+              <v-btn icon @click="logout">
                 <v-icon>settings</v-icon>
               </v-btn>
             </v-list-tile-action>
@@ -109,7 +109,7 @@ export default {
   },
   computed: {
     ...mapGetters('app', [
-      'user',
+      'currentUser',
       'currentPageName',
       'isOpenNavigationDrawer'
     ]),
@@ -137,6 +137,7 @@ export default {
       }, 100);
     },
     ...mapActions('app', [
+      'logout',
       'setCurrentPageName',
       'openNavigationDrawer',
       'closeNavigationDrawer',
