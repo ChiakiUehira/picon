@@ -64,19 +64,30 @@ export const actions = {
   createList ({getters, rootGetters}, { name }) {
     db.collection('lists').add({
       name,
-      author: db.doc(`users/${rootGetters['app/user'].id}`),
+      author: db.doc(`users/${rootGetters['app/currentUser'].id}`),
       entries: []
     }).then((ref) => {
       const listRef = db.doc(`lists/${ref.id}`)
       const userListRefs = getters.lists.map((list) => {
         return db.doc(`lists/${list.id}`)
       })
-      db.doc(`users/${rootGetters['app/user'].id}`).update({
+      db.doc(`users/${rootGetters['app/currentUser'].id}`).update({
         lists: [
           ...userListRefs,
           listRef
         ]
       })
+    })
+  },
+  removeList (_, id) {
+    return db.collection('lists').doc(id).delete()
+  },
+  deregisterList ({ getters, rootGetters }, id) {
+    const listRefs = getters.lists
+      .filter((list) => list.id !== id )
+      .map((list) => db.doc(`lists/${list.id}`))
+    return db.doc(`users/${rootGetters['app/currentUser'].id}`).update({
+      lists: listRefs
     })
   },
   setCurrentList ({commit}, id) {

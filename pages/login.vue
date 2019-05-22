@@ -14,8 +14,6 @@ export default {
       'login'
     ]),
   },
-  created () {
-  }
 }
 </script>
 

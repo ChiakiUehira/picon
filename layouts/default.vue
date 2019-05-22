@@ -26,28 +26,12 @@
       </v-toolbar>
       <v-divider></v-divider>
       <v-list class="pt-0">
-        <v-list-tile @click="">
+        <v-list-tile @click="$router.push(`/${username}`)">
           <v-list-tile-action>
             <v-icon>assignment</v-icon>
           </v-list-tile-action>
           <v-list-tile-content>
             <v-list-tile-title>Tasks</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
-        <v-list-tile @click="">
-          <v-list-tile-action>
-            <v-icon>assignment_ind</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-tile-title>Assignee</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
-        <v-list-tile @click="">
-          <v-list-tile-action>
-            <v-icon>date_range</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-tile-title>Calendar</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
         <v-divider></v-divider>
@@ -109,6 +93,7 @@ export default {
   },
   computed: {
     ...mapGetters('app', [
+      'username',
       'currentUser',
       'currentPageName',
       'isOpenNavigationDrawer'

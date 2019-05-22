@@ -4,6 +4,7 @@ import { firestoreAction } from 'vuexfire'
 export const state = () => ({
   currentUser: null,
   hasAccount: false,
+  isLoading: true,
   isOpenAddListDialog: false,
   isOpenAddItemBottomSheet: false,
   isOpenNavigationDrawer: false,
@@ -11,14 +12,21 @@ export const state = () => ({
 })
 
 export const getters = {
+
   hasAccount (state) {
     return state.hasAccount
   },
   currentUser (state) {
     return state.currentUser
   },
+  username (state) {
+    return state.currentUser.username
+  },
   isLogged (state) {
     return firebase.auth().currentUser !== null
+  },
+  isLoading (state) {
+    return state.isLoading
   },
   isOpenAddListDialog (state) {
     return state.isOpenAddListDialog
@@ -37,6 +45,9 @@ export const getters = {
 export const mutations = {
   setHasAccount (state, is) {
     state.hasAccount = is
+  },
+  setIsLoading (state, is) {
+    state.isLoading = is
   },
   setIsOpenNavigationDrawer (state, is) {
     state.isOpenNavigationDrawer = is
@@ -78,6 +89,12 @@ export const actions = {
   setCurrentUser: firestoreAction(({ bindFirestoreRef }, uuid) => {
     return bindFirestoreRef('currentUser', db.collection('users').doc(uuid))
   }),
+  openLoading ({ commit }) {
+    commit('setIsLoading', true)
+  },
+  closeLoading ({ commit }) {
+    commit('setIsLoading', false)
+  },
   toggleNavigationDrawer ({ getters, commit }) {
     commit('setIsOpenNavigationDrawer', !getters.isOpenNavigationDrawer)
   },
