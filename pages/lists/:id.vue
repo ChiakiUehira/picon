@@ -1,8 +1,6 @@
 <template>
   <div>
-    <v-list subheader two-line class="pa-0">
-      <v-subheader>一覧</v-subheader>
-      <v-divider></v-divider>
+    <v-list class="pa-0">
       <template v-for="item in currentListOpenEntries">
         <div :key="item.id">
           <v-list-tile @click="">
@@ -17,23 +15,28 @@
         </div>
       </template>
     </v-list>
-    <v-list　v-if="currentListClosedEntries" subheader two-line>
-      <v-subheader>完了</v-subheader>
-      <v-divider></v-divider>
-      <template v-for="item in currentListClosedEntries">
-        <div :key="item.id">
-          <v-list-tile @click="">
-            <v-list-tile-action>
-              <v-checkbox @change="onCheckbox(item.id, !item.isCompleted)" :input-value="item.isCompleted"></v-checkbox>
-            </v-list-tile-action>
-            <v-list-tile-content @click="toDetail(item.id)">
-              <v-list-tile-title v-html="item.name"></v-list-tile-title>
-            </v-list-tile-content>
-          </v-list-tile>
-          <v-divider></v-divider>
-        </div>
-      </template>
-    </v-list>
+    <v-expansion-panel expand>
+      <v-expansion-panel-content>
+        <template v-slot:header>
+          <div>完了済み</div>
+        </template>
+        <v-list>
+          <template v-for="item in currentListClosedEntries">
+            <v-divider></v-divider>
+            <div :key="item.id">
+              <v-list-tile @click="">
+                <v-list-tile-action>
+                  <v-checkbox @change="onCheckbox(item.id, !item.isCompleted)" :input-value="item.isCompleted"></v-checkbox>
+                </v-list-tile-action>
+                <v-list-tile-content @click="toDetail(item.id)">
+                  <v-list-tile-title v-html="item.name"></v-list-tile-title>
+                </v-list-tile-content>
+              </v-list-tile>
+            </div>
+          </template>
+        </v-list>
+      </v-expansion-panel-content>
+    </v-expansion-panel>
   </div>
 </template>
 

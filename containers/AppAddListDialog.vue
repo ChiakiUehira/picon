@@ -14,8 +14,8 @@
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="blue" flat @click="closeAddListDialog">キャンセル</v-btn>
-        <v-btn color="primary" flat @click="onCreate">作成</v-btn>
+        <v-btn @click="closeAddListDialog">キャンセル</v-btn>
+        <v-btn color="primary" @click="onCreate">作成</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
