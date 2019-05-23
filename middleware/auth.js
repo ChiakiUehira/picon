@@ -7,6 +7,9 @@ export default ({ store, route, redirect }) => {
     if (route.name === 'login') {
       redirect(route.query.redirect || '/')
     }
+    if (route.name === 'index') {
+      redirect('/' + store.getters['app/username'])
+    }
   }
   if (!store.getters['app/isLogged'] && route.name !== 'login') {
     redirect('/login?redirect=' + redirectPath)
