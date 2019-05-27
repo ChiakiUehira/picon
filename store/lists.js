@@ -2,7 +2,7 @@ import { db } from '~/plugins/firebase'
 import { firestoreAction } from 'vuexfire'
 export const state = () => ({
   currentList: null,
-  currentEntryId: null,
+  currentEntry: null,
 })
 
 export const getters = {
@@ -33,20 +33,12 @@ export const getters = {
       return entry.isCompleted
     })
   },
-  currentEntryId (state) {
-    return state.currentEntryId
-  },
-  currentEntry (_, getters) {
-    return getters.currentListEntries.find((item) => {
-      return item.id === getters.currentEntryId
-    })
+  currentEntry (state) {
+    return state.currentEntry
   },
 }
 
 export const mutations = {
-  setCurrentList (state, list) {
-    state.currentList = list
-  },
   setCurrentEntryId (state, id) {
     state.currentEntryId = id
   }
@@ -54,14 +46,14 @@ export const mutations = {
 
 export const actions = {
   setEntryIsCompletedById (_, {entry, isCompleted}) {
-    console.log(entry);
     return db.collection('entries').doc(entry.id).update({isCompleted})
   },
   async createList ({getters, rootGetters}, { name }) {
     const newList = await db.collection('lists').add({
       name,
       author: db.doc(`users/${rootGetters['app/currentUser'].id}`),
-      entries: []
+      entries: [],
+      isPublic: true
     })
     const userListRefs = getters.lists.map((list) => {
       return db.doc(`lists/${list.id}`)
@@ -70,12 +62,9 @@ export const actions = {
       lists: [
         ...userListRefs,
         newList
-      ]``
+      ]
     })
     return Promise.resolve(newList)
-  },
-  removeList (_, id) {
-    return db.collection('lists').doc(id).delete()
   },
   leaveList ({ getters, rootGetters }, _list) {
     const listRefs = getters.lists
@@ -85,19 +74,12 @@ export const actions = {
       lists: listRefs
     })
   },
-  setCurrentList ({commit, getters}, id) {
-    return new Promise((resolve) => {
-      const list = getters.lists.find((list) => list.id === id)
-      if (list) {
-        commit('setCurrentList', list)
-        resolve(list)
-      } else {
-        db.collection('lists').doc(id).get().then((list) => {
-          console.log(list.data());
-        })
-      }
-    })
-  },
+  setCurrentList: firestoreAction(({ bindFirestoreRef }, id) => {
+    return bindFirestoreRef('currentList', db.collection('lists').doc(id))
+  }),
+  setCurrentEntry: firestoreAction(({ bindFirestoreRef }, id) => {
+    return bindFirestoreRef('currentEntry', db.collection('entries').doc(id))
+  }),
   async createEntry ({ rootGetters }, { list, payload }) {
     const entry = await db.collection('entries').add({
       name: payload.name,
@@ -105,7 +87,8 @@ export const actions = {
       isCompleted: false,
       datatime: payload.datatime,
       assignee: payload.assignee,
-      description: payload.description
+      description: payload.description,
+      list: db.doc(`lists/${list.id}`)
     })
     return db.collection('lists').doc(list.id).update({
       entries: [
@@ -114,4 +97,13 @@ export const actions = {
       ]
     })
   },
+  async removeEntry ({ getters, rootGetters }, _entry) {
+    const list = await db.doc(`lists/${_entry.list.id}`).get()
+    const entryRefs = list.data().entries
+      .filter((entry) => entry.id !== _entry.id )
+      .map((entry) => db.doc(`entries/${entry.id}`))
+    return db.doc(`lists/${_entry.list.id}`).update({
+      entries: entryRefs
+    })
+  }
 }

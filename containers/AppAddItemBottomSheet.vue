@@ -8,6 +8,30 @@
           required
         ></v-text-field>
       </v-card-text>
+      <v-list-tile ripple @click="">
+        <v-list-tile-action>
+          <v-icon>description</v-icon>
+        </v-list-tile-action>
+        <v-list-tile-content>
+          <div class="caption">詳細を追加(未実装)</div>
+        </v-list-tile-content>
+      </v-list-tile>
+      <v-list-tile ripple @click="">
+        <v-list-tile-action>
+          <v-icon>av_timer</v-icon>
+        </v-list-tile-action>
+        <v-list-tile-content>
+          <div class="caption">日付を追加(未実装)</div>
+        </v-list-tile-content>
+      </v-list-tile>
+      <v-list-tile ripple @click="">
+        <v-list-tile-action>
+          <v-icon>assignment_ind</v-icon>
+        </v-list-tile-action>
+        <v-list-tile-content>
+          <div class="caption">担当者を追加(未実装)</div>
+        </v-list-tile-content>
+      </v-list-tile>
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn @click="onCreate" color="primary">作成</v-btn>

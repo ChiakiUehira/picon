@@ -4,7 +4,7 @@
       <v-container class="pt-1 pb-1">
         <v-layout align-center>
           <div class="mr-2">
-            <v-checkbox @click.stop="onChange" v-model="isCompleted"></v-checkbox>
+            <v-checkbox @click.stop="onChange" :input-value="entry.isCompleted"></v-checkbox>
           </div>
           <div>
             <div class="font-weight-medium subheading mb-1">{{entry.name}}</div>
@@ -27,13 +27,7 @@ import { mapActions } from 'vuex'
 export default {
   props: {
     entry: {
-      type: Object,
       required: true,
-    }
-  },
-  data() {
-    return {
-      isCompleted: false
     }
   },
   methods: {
@@ -51,9 +45,6 @@ export default {
     onDetail () {
       this.$router.push('/entries/' + this.entry.id)
     }
-  },
-  created() {
-    this.isCompleted = this.entry.isCompleted
   },
 }
 </script>

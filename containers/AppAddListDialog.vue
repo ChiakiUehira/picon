@@ -32,7 +32,6 @@
     methods: {
       onCreate () {
         this.createList({ name: this.name }).then((list) => {
-          console.log(list);
           this.name = ''
           this.closeAddListDialog()
           this.$router.push('/lists/' + list.id)

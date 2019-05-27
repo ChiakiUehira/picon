@@ -15,7 +15,6 @@
     "cross-env": "^5.2.0",
     "firebase": "^6.0.2",
     "nuxt": "^2.4.0",
-    "vuefire": "^2.0.0-alpha.24",
     "vuetify": "^1.5.5",
     "vuetify-loader": "^1.2.1",
     "vuexfire": "^3.0.0-alpha.18"

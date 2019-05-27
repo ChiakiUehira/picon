@@ -53,8 +53,9 @@ export default {
   },
   async created () {
     const id = this.$route.params.id
-    const list = await this.setCurrentList(id)
-    this.setCurrentPageName(list.name)
+    this.setCurrentList(id).then((list) => {
+      this.setCurrentPageName(list.name)
+    })
   },
 }
 </script>
