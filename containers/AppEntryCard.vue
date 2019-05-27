@@ -23,24 +23,31 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 export default {
   props: {
     entry: {
       required: true,
     }
   },
+  computed: {
+    ...mapGetters('lists', [
+      'isJoinCurrentList'
+    ])
+  },
   methods: {
     ...mapActions('lists', [
       'setEntryIsCompletedById',
     ]),
     onChange () {
-      setTimeout(() => {
-        this.setEntryIsCompletedById({
-          entry: this.entry,
-          isCompleted: !this.entry.isCompleted
-        })
-      }, 300);
+      if (this.isJoinCurrentList) {
+        setTimeout(() => {
+          this.setEntryIsCompletedById({
+            entry: this.entry,
+            isCompleted: !this.entry.isCompleted
+          })
+        }, 300)
+      }
     },
     onDetail () {
       this.$router.push('/entries/' + this.entry.id)

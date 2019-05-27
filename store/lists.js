@@ -16,6 +16,13 @@ export const getters = {
   currentList (state) {
     return state.currentList
   },
+  isJoinCurrentList (_, getters) {
+    if (getters.currentList) {
+      return getters.lists.some((list) => {
+        return list.id === getters.currentList.id
+      })
+    }
+  },
   currentListEntries (_, getters) {
     if (getters.currentList) {
       return getters.currentList.entries
@@ -72,6 +79,17 @@ export const actions = {
       .map((list) => db.doc(`lists/${list.id}`))
     return db.doc(`users/${rootGetters['app/currentUser'].id}`).update({
       lists: listRefs
+    })
+  },
+  joinList ({ getters, rootGetters }) {
+    const userListRefs = getters.lists.map((list) => {
+      return db.doc(`lists/${list.id}`)
+    })
+    return db.doc(`users/${rootGetters['app/currentUser'].id}`).update({
+      lists: [
+        ...userListRefs,
+        db.doc(`lists/${getters.currentList.id}`)
+      ]
     })
   },
   setCurrentList: firestoreAction(({ bindFirestoreRef }, id) => {

@@ -6,7 +6,7 @@
       <nuxt/>
     </v-content>
     <v-btn
-      v-if="currentPageType !== 'home'"
+      v-if="currentPageType !== 'home' && isJoinCurrentList"
       fixed
       fab
       bottom
@@ -37,6 +37,9 @@ export default {
   computed: {
     ...mapGetters('app', [
       'currentPageType'
+    ]),
+    ...mapGetters('lists', [
+      'isJoinCurrentList'
     ])
   },
   methods: {
