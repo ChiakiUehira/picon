@@ -54,7 +54,7 @@ export default {
           email :this.email,
           thumbnail :this.thumbnail,
         }).then(() => {
-          window.location.href = "/"
+          this.$router.push(`/${this.username}`)
         })
       }
     }

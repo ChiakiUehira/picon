@@ -6,7 +6,7 @@
           <div class="mr-2">
             <v-checkbox @click.stop="onChange" :input-value="entry.isCompleted"></v-checkbox>
           </div>
-          <div>
+          <div class="overflow-hidden mr-3">
             <div class="font-weight-medium subheading mb-1">{{entry.name}}</div>
             <div v-if="entry.description" class="caption">{{entry.description}}</div>
           </div>
