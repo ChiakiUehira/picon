@@ -23,7 +23,10 @@ export default {
     ]
   },
   router: {
-    middleware: 'auth'
+    middleware: [
+      'auth',
+      'route'
+    ]
   },
 
   /*

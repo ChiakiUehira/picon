@@ -8,11 +8,11 @@ export const state = () => ({
   isOpenAddListDialog: false,
   isOpenAddItemBottomSheet: false,
   isOpenNavigationDrawer: false,
-  currentPageName: 'Tasks'
+  currentPageName: 'Tasks',
+  currentPageSlug: ''
 })
 
 export const getters = {
-
   hasAccount (state) {
     return state.hasAccount
   },
@@ -39,6 +39,19 @@ export const getters = {
   },
   currentPageName (state) {
     return state.currentPageName
+  },
+  currentPageType (state) {
+    switch (state.currentPageSlug) {
+      case ':id':
+        return 'home'
+        break;
+      case 'lists-:id':
+        return 'list'
+        break;
+      case 'entries-:id':
+        return 'entry'
+        break;
+    }
   }
 }
 
@@ -60,6 +73,9 @@ export const mutations = {
   },
   setCurrentPageName (state, name) {
     state.currentPageName = name
+  },
+  setCurrentPageSlug (state, slug) {
+    state.currentPageSlug = slug
   }
 }
 
@@ -118,5 +134,8 @@ export const actions = {
   },
   setCurrentPageName ({ commit }, name) {
     commit('setCurrentPageName', name)
+  },
+  setCurrentPageSlug ({ commit }, slug) {
+    commit('setCurrentPageSlug', slug)
   }
 }
