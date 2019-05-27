@@ -2,7 +2,7 @@
   <div v-if="currentEntry">
     <v-list>
       <v-subheader>General</v-subheader>
-      <v-list-tile @click="">
+      <v-list-tile @click="" align-center>
         <v-list-tile-action>
           <v-checkbox @click.stop="onChange" :input-value="currentEntry.isCompleted"></v-checkbox>
         </v-list-tile-action>
