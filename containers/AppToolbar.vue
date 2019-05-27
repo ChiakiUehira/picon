@@ -10,13 +10,13 @@
       <span v-if="isList || isEntry">{{currentPageName}}</span>
     </v-toolbar-title>
     <v-spacer></v-spacer>
-    <v-btn v-if="isEntry && isJoinCurrentList" @click="onRemoveEntry" icon>
+    <v-btn v-if="isEntry && isJoindCurrentList" @click="onRemoveEntry" icon>
       <v-icon>delete</v-icon>
     </v-btn>
-    <v-btn v-if="isList && !isJoinCurrentList" @click="joinList" icon>
+    <v-btn v-if="isList && !isJoindCurrentList" @click="joinList" icon>
       <v-icon>person_add</v-icon>
     </v-btn>
-    <v-menu v-if="isList && isJoinCurrentList" bottom left>
+    <v-menu v-if="isList && isJoindCurrentList" bottom left>
       <template v-slot:activator="{ on }">
         <v-btn icon v-on="on">
           <v-icon>more_vert</v-icon>
@@ -44,7 +44,7 @@ export default {
     ...mapGetters('lists', [
       'currentList',
       'currentEntry',
-      'isJoinCurrentList'
+      'isJoindCurrentList'
     ]),
     isHome () {
       return this.currentPageType === 'home'

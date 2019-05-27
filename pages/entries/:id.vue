@@ -71,17 +71,20 @@ export default {
       'setEntryIsCompletedById'
     ]),
     onChange () {
-      setTimeout(() => {
-        this.setEntryIsCompletedById({
-          entry: this.currentEntry,
-          isCompleted: !this.currentEntry.isCompleted
-        })
-      }, 300);
+      if (this.isJoindCurrentList) {
+        setTimeout(() => {
+          this.setEntryIsCompletedById({
+            entry: this.currentEntry,
+            isCompleted: !this.currentEntry.isCompleted
+          })
+        }, 300);
+      }
     },
   },
   computed: {
     ...mapGetters('lists', [
       'currentEntry',
+      'isJoindCurrentList'
     ])
   },
   created () {

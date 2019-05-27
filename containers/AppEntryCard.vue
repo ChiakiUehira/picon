@@ -32,7 +32,7 @@ export default {
   },
   computed: {
     ...mapGetters('lists', [
-      'isJoinCurrentList'
+      'isJoindCurrentList'
     ])
   },
   methods: {
@@ -40,7 +40,7 @@ export default {
       'setEntryIsCompletedById',
     ]),
     onChange () {
-      if (this.isJoinCurrentList) {
+      if (this.isJoindCurrentList) {
         setTimeout(() => {
           this.setEntryIsCompletedById({
             entry: this.entry,

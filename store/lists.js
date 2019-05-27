@@ -16,7 +16,7 @@ export const getters = {
   currentList (state) {
     return state.currentList
   },
-  isJoinCurrentList (_, getters) {
+  isJoindCurrentList (_, getters) {
     if (getters.currentList) {
       return getters.lists.some((list) => {
         return list.id === getters.currentList.id
