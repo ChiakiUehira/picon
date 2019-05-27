@@ -1,7 +1,7 @@
 <template>
   <v-toolbar fixed app dark color="primary">
     <v-toolbar-side-icon @click.stop="openNavigationDrawer"></v-toolbar-side-icon>
-    <v-toolbar-title>
+    <v-toolbar-title class="font-weight-bold">
       <span v-if="isHome">Home</span>
       <span v-if="isSettings">Settings</span>
       <span v-if="isList">{{currentPageName}}</span>
@@ -17,8 +17,8 @@
         </v-btn>
       </template>
       <v-list>
-        <v-list-tile>
-          <v-list-tile-title>リストを削除する</v-list-tile-title>
+        <v-list-tile @click="onRemoveList">
+          <v-list-tile-title class="red--text">リストを削除する</v-list-tile-title>
         </v-list-tile>
       </v-list>
     </v-menu>
@@ -30,6 +30,7 @@ import { mapActions, mapGetters } from 'vuex'
 export default {
   computed: {
     ...mapGetters('app', [
+      'username',
       'currentPageName',
       'currentPageType',
       'isOpenNavigationDrawer'
@@ -45,6 +46,9 @@ export default {
     }
   },
   methods: {
+    onRemoveList () {
+      this.$router.push(`/${this.username}`)
+    },
     onNavigationDrawer (is) {
       if (is) {
         this.openNavigationDrawer()
@@ -56,9 +60,6 @@ export default {
       'openNavigationDrawer',
       'closeNavigationDrawer',
     ])
-  },
-  created() {
-      console.log(this.$route.name);
-  },
+  }
 }
 </script>
