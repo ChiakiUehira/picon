@@ -1,9 +1,5 @@
-import Vue from 'vue'
 import firebase from 'firebase'
-import { firestorePlugin } from 'vuefire'
 import 'firebase/firestore'
-
-Vue.use(firestorePlugin)
 
 if (!firebase.apps.length) {
   firebase.initializeApp({
