@@ -1,7 +1,7 @@
 import { db } from '~/plugins/firebase'
 import { firestoreAction } from 'vuexfire'
 export const state = () => ({
-  currentListId: null,
+  currentList: null,
   currentEntryId: null,
 })
 
@@ -13,13 +13,8 @@ export const getters = {
       return []
     }
   },
-  currentListId (state) {
-    return state.currentListId
-  },
-  currentList (state, getters) {
-    return getters.lists.find((item) => {
-      return item.id === getters.currentListId
-    })
+  currentList (state) {
+    return state.currentList
   },
   currentListEntries (_, getters) {
     if (getters.currentList) {
@@ -49,8 +44,8 @@ export const getters = {
 }
 
 export const mutations = {
-  setCurrentListId (state, id) {
-    state.currentListId = id
+  setCurrentList (state, list) {
+    state.currentList = list
   },
   setCurrentEntryId (state, id) {
     state.currentEntryId = id
@@ -90,11 +85,18 @@ export const actions = {
       lists: listRefs
     })
   },
-  setCurrentList ({commit}, id) {
-    commit('setCurrentListId', id)
-  },
-  setCurrentEntryId ({commit}, id) {
-    commit('setCurrentEntryId', id)
+  setCurrentList ({commit, getters}, id) {
+    return new Promise((resolve) => {
+      const list = getters.lists.find((list) => list.id === id)
+      if (list) {
+        commit('setCurrentList', list)
+        resolve(list)
+      } else {
+        db.collection('lists').doc(id).get().then((list) => {
+          console.log(list.data());
+        })
+      }
+    })
   },
   async createEntry ({ rootGetters }, { list, payload }) {
     const entry = await db.collection('entries').add({
@@ -111,5 +113,5 @@ export const actions = {
         ...list.entries.map((entity) => db.doc(`entries/${entity.id}`)),
       ]
     })
-  }
+  },
 }

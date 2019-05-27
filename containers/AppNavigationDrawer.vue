@@ -80,7 +80,6 @@ export default {
     },
     onSelectList (id, name) {
       this.closeNavigationDrawer()
-      this.setCurrentPageName(name)
       this.$router.push('/lists/' + id)
     },
     onAddList () {
@@ -90,7 +89,6 @@ export default {
       }, 100);
     },
     ...mapActions('app', [
-      'setCurrentPageName',
       'openNavigationDrawer',
       'closeNavigationDrawer',
       'openAddListDialog',

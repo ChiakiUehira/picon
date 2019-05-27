@@ -31,9 +31,12 @@ export default {
     AppEntryCard
   },
   methods: {
+    ...mapActions('app', [
+      'setCurrentPageName',
+    ]),
     ...mapActions('lists', [
       'setEntryIsCompletedById',
-      'setCurrentList'
+      'setCurrentList',
     ]),
     onCheckbox (id, is) {
       this.setEntryIsCompletedById({id, is})
@@ -48,9 +51,10 @@ export default {
       'currentListClosedEntries',
     ])
   },
-  created () {
+  async created () {
     const id = this.$route.params.id
-    this.setCurrentList(id)
+    const list = await this.setCurrentList(id)
+    this.setCurrentPageName(list.name)
   },
 }
 </script>
