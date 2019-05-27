@@ -31,9 +31,12 @@
     },
     methods: {
       onCreate () {
-        this.createList({ name: this.name })
-        this.name = ''
-        this.closeAddListDialog()
+        this.createList({ name: this.name }).then((list) => {
+          console.log(list);
+          this.name = ''
+          this.closeAddListDialog()
+          this.$router.push('/lists/' + list.id)
+        })
       },
       ...mapActions('app', [
         'closeAddListDialog'

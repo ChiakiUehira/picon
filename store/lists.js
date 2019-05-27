@@ -61,23 +61,22 @@ export const actions = {
   setEntryIsCompletedById (_, {id, is}) {
     return db.collection('entries').doc(id).update({isCompleted: is})
   },
-  createList ({getters, rootGetters}, { name }) {
-    db.collection('lists').add({
+  async createList ({getters, rootGetters}, { name }) {
+    const newList = await db.collection('lists').add({
       name,
       author: db.doc(`users/${rootGetters['app/currentUser'].id}`),
       entries: []
-    }).then((ref) => {
-      const listRef = db.doc(`lists/${ref.id}`)
-      const userListRefs = getters.lists.map((list) => {
-        return db.doc(`lists/${list.id}`)
-      })
-      db.doc(`users/${rootGetters['app/currentUser'].id}`).update({
-        lists: [
-          ...userListRefs,
-          listRef
-        ]
-      })
     })
+    const userListRefs = getters.lists.map((list) => {
+      return db.doc(`lists/${list.id}`)
+    })
+    await db.doc(`users/${rootGetters['app/currentUser'].id}`).update({
+      lists: [
+        ...userListRefs,
+        newList
+      ]
+    })
+    return Promise.resolve(newList)
   },
   removeList (_, id) {
     return db.collection('lists').doc(id).delete()
