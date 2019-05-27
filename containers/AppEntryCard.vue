@@ -1,0 +1,59 @@
+<template>
+  <div>
+    <v-card flat ripple @click="onDetail">
+      <v-container class="pt-1 pb-1">
+        <v-layout align-center>
+          <div class="mr-2">
+            <v-checkbox @click.stop="onChange" v-model="isCompleted"></v-checkbox>
+          </div>
+          <div>
+            <div class="font-weight-medium subheading mb-1">{{entry.name}}</div>
+            <div v-if="entry.description" class="caption">{{entry.description}}</div>
+          </div>
+          <v-spacer />
+          <v-avatar v-if="entry.author">
+            <img :src="entry.author.thumbnail">
+          </v-avatar>
+        </v-layout>
+        <v-chip v-if="entry.datetime">{{entry.datetime}}</v-chip>
+      </v-container>
+    </v-card>
+    <v-divider />
+  </div>
+</template>
+
+<script>
+import { mapActions } from 'vuex'
+export default {
+  props: {
+    entry: {
+      type: Object,
+      required: true,
+    }
+  },
+  data() {
+    return {
+      isCompleted: false
+    }
+  },
+  methods: {
+    ...mapActions('lists', [
+      'setEntryIsCompletedById',
+    ]),
+    onChange () {
+      setTimeout(() => {
+        this.setEntryIsCompletedById({
+          entry: this.entry,
+          isCompleted: !this.entry.isCompleted
+        })
+      }, 300);
+    },
+    onDetail () {
+      this.$router.push('/entries/' + this.entry.id)
+    }
+  },
+  created() {
+    this.isCompleted = this.entry.isCompleted
+  },
+}
+</script>

@@ -1,40 +1,23 @@
 <template>
   <div>
-    <v-list class="pa-0">
-      <template v-for="item in currentListOpenEntries" three-line>
-        <div :key="item.id">
-          <v-list-tile @click="">
-            <v-list-tile-action>
-              <v-checkbox @change="onCheckbox(item.id, !item.isCompleted)" :input-value="item.isCompleted"></v-checkbox>
-            </v-list-tile-action>
-            <v-list-tile-content @click="toDetail(item.id)">
-              <v-list-tile-title v-html="item.name"></v-list-tile-title>
-            </v-list-tile-content>
-          </v-list-tile>
-          <v-divider></v-divider>
-        </div>
-      </template>
-    </v-list>
-    <v-expansion-panel expand>
+    <app-entry-card
+      v-for="entry in currentListOpenEntries"
+      :key="entry.id"
+      :entry="entry"
+    >
+    </app-entry-card>
+    <v-expansion-panel expand v-if="currentListClosedEntries.length">
       <v-expansion-panel-content>
         <template v-slot:header>
           <div>完了済み</div>
         </template>
-        <v-list>
-          <template v-for="item in currentListClosedEntries">
-            <v-divider></v-divider>
-            <div :key="item.id">
-              <v-list-tile @click="">
-                <v-list-tile-action>
-                  <v-checkbox @change="onCheckbox(item.id, !item.isCompleted)" :input-value="item.isCompleted"></v-checkbox>
-                </v-list-tile-action>
-                <v-list-tile-content @click="toDetail(item.id)">
-                  <v-list-tile-title v-html="item.name"></v-list-tile-title>
-                </v-list-tile-content>
-              </v-list-tile>
-            </div>
-          </template>
-        </v-list>
+        <v-divider />
+        <app-entry-card
+          v-for="entry in currentListClosedEntries"
+          :key="entry.id"
+          :entry="entry"
+        >
+        </app-entry-card>
       </v-expansion-panel-content>
     </v-expansion-panel>
   </div>
@@ -42,7 +25,11 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
+import AppEntryCard from '~/containers/AppEntryCard'
 export default {
+  components: {
+    AppEntryCard
+  },
   methods: {
     ...mapActions('lists', [
       'setEntryIsCompletedById',

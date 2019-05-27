@@ -58,8 +58,9 @@ export const mutations = {
 }
 
 export const actions = {
-  setEntryIsCompletedById (_, {id, is}) {
-    return db.collection('entries').doc(id).update({isCompleted: is})
+  setEntryIsCompletedById (_, {entry, isCompleted}) {
+    console.log(entry);
+    return db.collection('entries').doc(entry.id).update({isCompleted})
   },
   async createList ({getters, rootGetters}, { name }) {
     const newList = await db.collection('lists').add({
@@ -74,7 +75,7 @@ export const actions = {
       lists: [
         ...userListRefs,
         newList
-      ]
+      ]``
     })
     return Promise.resolve(newList)
   },

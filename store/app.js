@@ -106,7 +106,7 @@ export const actions = {
     })
   },
   setCurrentUser: firestoreAction(({ bindFirestoreRef }, uuid) => {
-    return bindFirestoreRef('currentUser', db.collection('users').doc(uuid))
+    return bindFirestoreRef('currentUser', db.collection('users').doc(uuid), { maxRefDepth: 3 })
   }),
   openLoading ({ commit }) {
     commit('setIsLoading', true)
