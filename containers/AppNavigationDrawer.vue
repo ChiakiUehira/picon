@@ -21,7 +21,7 @@
           <v-icon>home</v-icon>
         </v-list-tile-action>
         <v-list-tile-content>
-          <v-list-tile-title>HOME</v-list-tile-title>
+          <v-list-tile-title class="font-weight-regular">HOME</v-list-tile-title>
         </v-list-tile-content>
       </v-list-tile>
       <v-divider></v-divider>
@@ -31,7 +31,7 @@
           <v-icon>list</v-icon>
         </v-list-tile-action>
         <v-list-tile-content>
-          <v-list-tile-title>{{list.name}}</v-list-tile-title>
+          <v-list-tile-title class="font-weight-regular">{{list.name}}</v-list-tile-title>
         </v-list-tile-content>
       </v-list-tile>
       <v-list-tile @click="onAddList">
@@ -39,7 +39,7 @@
           <v-icon>add</v-icon>
         </v-list-tile-action>
         <v-list-tile-content>
-          <v-list-tile-title>新しいリストを作成</v-list-tile-title>
+          <v-list-tile-title class="font-weight-regular">新しいリストを作成</v-list-tile-title>
         </v-list-tile-content>
       </v-list-tile>
     </v-list>

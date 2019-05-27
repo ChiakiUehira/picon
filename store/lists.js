@@ -82,9 +82,9 @@ export const actions = {
   removeList (_, id) {
     return db.collection('lists').doc(id).delete()
   },
-  deregisterList ({ getters, rootGetters }, id) {
+  leaveList ({ getters, rootGetters }, _list) {
     const listRefs = getters.lists
-      .filter((list) => list.id !== id )
+      .filter((list) => list.id !== _list.id )
       .map((list) => db.doc(`lists/${list.id}`))
     return db.doc(`users/${rootGetters['app/currentUser'].id}`).update({
       lists: listRefs

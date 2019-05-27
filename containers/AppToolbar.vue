@@ -17,8 +17,8 @@
         </v-btn>
       </template>
       <v-list>
-        <v-list-tile @click="onRemoveList">
-          <v-list-tile-title class="red--text">リストを削除する</v-list-tile-title>
+        <v-list-tile @click="onLeaveList">
+          <v-list-tile-title class="red--text">リストを退会する</v-list-tile-title>
         </v-list-tile>
       </v-list>
     </v-menu>
@@ -35,6 +35,9 @@ export default {
       'currentPageType',
       'isOpenNavigationDrawer'
     ]),
+    ...mapGetters('lists', [
+      'currentList'
+    ]),
     isHome () {
       return this.currentPageType === 'home'
     },
@@ -46,8 +49,10 @@ export default {
     }
   },
   methods: {
-    onRemoveList () {
-      this.$router.push(`/${this.username}`)
+    onLeaveList () {
+      this.leaveList(this.currentList).then(() => {
+        this.$router.push(`/${this.username}`)
+      })
     },
     onNavigationDrawer (is) {
       if (is) {
@@ -59,6 +64,9 @@ export default {
     ...mapActions('app', [
       'openNavigationDrawer',
       'closeNavigationDrawer',
+    ]),
+    ...mapActions('lists', [
+      'leaveList'
     ])
   }
 }
