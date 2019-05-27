@@ -6,24 +6,15 @@
     @input="onNavigationDrawer"
     :value="isOpenNavigationDrawer"
   >
-    <v-toolbar flat>
-      <v-list class="pa-0">
-        <v-list-tile avatar v-if="currentUser">
-          <v-list-tile-avatar>
-            <img :src="currentUser.thumbnail">
-          </v-list-tile-avatar>
-          <v-list-tile-content>
-            <v-list-tile-title>{{currentUser.displayName}}</v-list-tile-title>
-          </v-list-tile-content>
-          <v-list-tile-action>
-            <v-btn icon @click="logout">
-              <v-icon>settings</v-icon>
-            </v-btn>
-          </v-list-tile-action>
-        </v-list-tile>
-      </v-list>
-    </v-toolbar>
-    <v-divider></v-divider>
+    <v-img v-if="currentUser" :aspect-ratio="16/9" :src="currentUser.thumbnail">
+      <v-layout pa-2 column fill-height class="lightbox white--text">
+        <v-spacer></v-spacer>
+        <v-flex shrink>
+          <div class="subheading">{{currentUser.displayName}}</div>
+          <div class="body-1">{{currentUser.email}}</div>
+        </v-flex>
+      </v-layout>
+    </v-img>
     <v-list class="pt-0">
       <v-list-tile @click="$router.push(`/${username}`)">
         <v-list-tile-action>
@@ -34,6 +25,7 @@
         </v-list-tile-content>
       </v-list-tile>
       <v-divider></v-divider>
+      <v-subheader>Lists</v-subheader>
       <v-list-tile v-for="list in lists" @click="onSelectList(list.id, list.name)" :key="list.id">
         <v-list-tile-action>
           <v-icon>list</v-icon>
@@ -98,7 +90,6 @@ export default {
       }, 100);
     },
     ...mapActions('app', [
-      'logout',
       'setCurrentPageName',
       'openNavigationDrawer',
       'closeNavigationDrawer',

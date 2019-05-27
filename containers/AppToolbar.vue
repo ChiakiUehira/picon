@@ -2,14 +2,15 @@
   <v-toolbar fixed app dark color="primary">
     <v-toolbar-side-icon @click.stop="openNavigationDrawer"></v-toolbar-side-icon>
     <v-toolbar-title>
-      <span v-if="isHome">HOME</span>
-      <span v-if="!isHome">{{currentPageName}}</span>
+      <span v-if="isHome">Home</span>
+      <span v-if="isSettings">Settings</span>
+      <span v-if="isList">{{currentPageName}}</span>
     </v-toolbar-title>
     <v-spacer></v-spacer>
-    <v-btn v-if="!isHome" icon>
+    <v-btn v-if="isList" icon>
       <v-icon>person_add</v-icon>
     </v-btn>
-    <v-menu v-if="!isHome" bottom left>
+    <v-menu v-if="isList" bottom left>
       <template v-slot:activator="{ on }">
         <v-btn icon v-on="on">
           <v-icon>more_vert</v-icon>
@@ -35,6 +36,12 @@ export default {
     ]),
     isHome () {
       return this.currentPageType === 'home'
+    },
+    isList () {
+      return this.currentPageType === 'list'
+    },
+    isSettings () {
+      return this.currentPageType === 'settings'
     }
   },
   methods: {

@@ -51,6 +51,9 @@ export const getters = {
       case 'entries-:id':
         return 'entry'
         break;
+      case 'settings':
+        return 'settings'
+        break;
     }
   }
 }

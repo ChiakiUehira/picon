@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-list class="pa-0">
-      <template v-for="item in currentListOpenEntries">
+      <template v-for="item in currentListOpenEntries" three-line>
         <div :key="item.id">
           <v-list-tile @click="">
             <v-list-tile-action>
