@@ -4,7 +4,7 @@
       <v-card-text>
         <v-text-field
           v-model="name"
-          label="タスク"
+          label="新しいタスクを追加"
           required
         ></v-text-field>
       </v-card-text>

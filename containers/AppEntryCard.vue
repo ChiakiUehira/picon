@@ -1,22 +1,20 @@
 <template>
   <div>
     <v-card flat ripple @click="onDetail">
-      <v-container class="pt-1 pb-1">
-        <v-layout align-center>
-          <div class="mr-2">
-            <v-checkbox @click.stop="onChange" :input-value="entry.isCompleted"></v-checkbox>
-          </div>
-          <div class="overflow-hidden mr-3">
-            <div class="font-weight-medium subheading mb-1">{{entry.name}}</div>
-            <div v-if="entry.description" class="caption">{{entry.description}}</div>
-          </div>
-          <v-spacer />
-          <v-avatar v-if="entry.author">
-            <img :src="entry.author.thumbnail">
-          </v-avatar>
-        </v-layout>
-        <v-chip v-if="entry.datetime">{{entry.datetime}}</v-chip>
-      </v-container>
+      <v-layout align-center class="pa-1 pl-3 pr-3">
+        <div class="mr-2">
+          <v-checkbox @click.stop="onChange" :input-value="entry.isCompleted"></v-checkbox>
+        </div>
+        <div class="overflow-hidden mr-3">
+          <div class="font-weight-medium subheading mb-1">{{entry.name}}</div>
+          <div v-if="entry.description" class="caption">{{entry.description}}</div>
+        </div>
+        <v-spacer />
+        <v-avatar v-if="entry.author">
+          <img :src="entry.author.thumbnail">
+        </v-avatar>
+      </v-layout>
+      <v-chip v-if="entry.datetime">{{entry.datetime}}</v-chip>
     </v-card>
     <v-divider />
   </div>
