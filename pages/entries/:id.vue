@@ -41,44 +41,30 @@
               </v-dialog>
             </v-flex>
             <v-flex xs12>
-              <v-autocomplete
+              <v-combobox
                 v-model="assignee"
-                :disabled="isUpdating"
-                :items="[]"
-                box
+                :items="users"
                 chips
+                box
                 label="担当者"
-                item-text="name"
-                item-value="name"
               >
-                <!-- <template v-slot:selection="data">
-                  <v-chip
-                    :selected="data.selected"
-                    close
-                    class="chip--select-multi"
-                    @input="remove(data.item)"
-                  >
+                <template v-slot:selection="{ item, parent, selected }">
+                  <v-chip>
                     <v-avatar>
-                      <img :src="data.item.avatar">
+                      <img :src="item.thumbnail">
                     </v-avatar>
-                    {{ data.item.name }}
+                    @{{ item.username }}
                   </v-chip>
                 </template>
-                <template v-slot:item="data">
-                  <template v-if="typeof data.item !== 'object'">
-                    <v-list-tile-content v-text="data.item"></v-list-tile-content>
-                  </template>
-                  <template v-else>
-                    <v-list-tile-avatar>
-                      <img :src="data.item.avatar">
-                    </v-list-tile-avatar>
-                    <v-list-tile-content>
-                      <v-list-tile-title v-html="data.item.name"></v-list-tile-title>
-                      <v-list-tile-sub-title v-html="data.item.group"></v-list-tile-sub-title>
-                    </v-list-tile-content>
-                  </template>
-                </template> -->
-              </v-autocomplete>
+                <template v-slot:item="{ item, parent, selected }">
+                  <v-chip>
+                    <v-avatar>
+                      <img :src="item.thumbnail">
+                    </v-avatar>
+                    @{{ item.username }}
+                  </v-chip>
+                </template>
+              </v-combobox>
             </v-flex>
             <v-flex xs12>
               <v-combobox
@@ -105,7 +91,7 @@
                 auto-grow
                 box
                 label="詳細"
-                rows="3"
+                rows="10"
               ></v-textarea>
             </v-flex>
           </v-layout>
@@ -115,13 +101,12 @@
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn
-          :disabled="!isUpdating"
           :loading="isUpdating"
           depressed
-          @click="isUpdating = true"
+          @click="onUpdate"
           color="primary"
         >
-          Update Now
+          Update
         </v-btn>
       </v-card-actions>
     </v-card>
@@ -130,17 +115,17 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
+import dayjs from 'dayjs'
 export default {
   data() {
     return {
+      entry: null,
       modal: false,
       isUpdating: false,
-      data: {
-        item: []
-      },
+      users: [],
       name: '',
-      datetime: '',
-      description: '',
+      datetime: null,
+      description: null,
       author: null,
       assignee: null,
       isCompleted: false,
@@ -152,7 +137,11 @@ export default {
     ]),
     ...mapActions('lists', [
       'setCurrentEntry',
-      'setEntryIsCompletedById'
+      'setEntryIsCompletedById',
+      'updateEntry'
+    ]),
+    ...mapActions('users', [
+      'getUsers',
     ]),
     onChange () {
       if (this.isJoindCurrentList) {
@@ -164,6 +153,22 @@ export default {
         }, 300);
       }
     },
+    onUpdate() {
+      this.isUpdating = true
+      this.updateEntry({
+        entry: this.entry,
+        payload: {
+          name: this.name,
+          datetime: this.datetime,
+          description: this.description,
+          isCompleted: this.isCompleted,
+          author: this.author,
+          assignee: this.assignee,
+        }
+      }).then(() => {
+        this.isUpdating = false
+      })
+    }
   },
   computed: {
     ...mapGetters('lists', [
@@ -171,11 +176,13 @@ export default {
       'isJoindCurrentList'
     ])
   },
-  created () {
+  async created () {
     const id = this.$route.params.id
+    this.users = await this.getUsers()
     this.setCurrentEntry(id).then(entry => {
+      this.entry = entry
       this.name = entry.name
-      this.datetime = entry.datetime
+      this.datetime = entry.datetime ? dayjs(new Date(entry.datetime.toDate())).format('YYYY-MM-DD') : null
       this.description = entry.description
       this.isCompleted = entry.isCompleted
       this.author = entry.author

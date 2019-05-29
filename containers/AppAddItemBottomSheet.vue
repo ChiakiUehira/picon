@@ -58,7 +58,7 @@ export default {
         list: this.currentList,
         payload: {
           name: this.name,
-          datatime: null,
+          datetime: null,
           assignee: null,
           description: null
         }

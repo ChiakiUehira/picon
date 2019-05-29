@@ -103,7 +103,7 @@ export const actions = {
       name: payload.name,
       author: db.doc(`users/${rootGetters['app/currentUser'].id}`),
       isCompleted: false,
-      datatime: payload.datatime,
+      datetime: payload.datetime,
       assignee: payload.assignee,
       description: payload.description,
       list: db.doc(`lists/${list.id}`)
@@ -113,6 +113,16 @@ export const actions = {
         entry,
         ...list.entries.map((entity) => db.doc(`entries/${entity.id}`)),
       ]
+    })
+  },
+  async updateEntry (_, {entry, payload}) {
+    return db.doc(`entries/${entry.id}`).update({
+      assignee: payload.assignee ? db.doc(`users/${payload.assignee.id}`) : null,
+      author: payload.author ? db.doc(`users/${payload.author.id}`) : null,
+      datetime: payload.datetime ? new Date(payload.datetime) : null,
+      description: payload.description,
+      isCompleted: payload.isCompleted,
+      name: payload.name,
     })
   },
   async removeEntry ({ getters, rootGetters }, _entry) {

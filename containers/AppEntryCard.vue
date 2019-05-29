@@ -10,11 +10,10 @@
           <div v-if="entry.description" class="caption">{{entry.description}}</div>
         </div>
         <v-spacer />
-        <v-avatar v-if="entry.author">
-          <img :src="entry.author.thumbnail">
+        <v-avatar v-if="entry.assignee">
+          <img :src="entry.assignee.thumbnail">
         </v-avatar>
       </v-layout>
-      <v-chip v-if="entry.datetime">{{entry.datetime}}</v-chip>
     </v-card>
     <v-divider />
   </div>
