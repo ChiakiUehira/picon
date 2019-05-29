@@ -22,11 +22,22 @@ export default {
       }
     ]
   },
+
   router: {
     middleware: [
       'auth',
       'route'
     ]
+  },
+
+  manifest: {
+    name: 'PICON',
+    short_name: 'PICON',
+    start_url: '/',
+    display: 'standalone',
+    background_color: '#fff',
+    theme_color: '#1976d2',
+    description: ''
   },
 
   /*
