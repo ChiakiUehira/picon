@@ -3,7 +3,9 @@
     <app-navigation-drawer />
     <app-toolbar />
     <v-content>
-      <nuxt/>
+      <v-container>
+        <nuxt/>
+      </v-container>
     </v-content>
     <v-btn
       v-if="currentPageType !== 'home' && isJoindCurrentList"

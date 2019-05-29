@@ -8,11 +8,9 @@ export default {
   ** Headers of the page
   */
   head: {
-    title: pkg.name,
+    title: 'PICON',
     meta: [
       { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: pkg.description }
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
@@ -29,7 +27,24 @@ export default {
       'route'
     ]
   },
-
+  meta: {
+    lang: 'ja',
+    name: 'PICON',
+    author: 'PICON',
+    description: 'PICON',
+    theme_color: '#1976d2',
+    mobileAppIOS: true,
+    viewport: 'width=device-width,initial-scale=1',
+    ogType: 'website',
+    ogSiteName: 'PICON',
+    ogTitle: 'PICON',
+    ogDescription: 'PICON',
+    ogHost: 'https://picon-app.netlify.com',
+    ogImage: {
+      path: 'card.jpg'
+    },
+    nativeUI: true,
+  },
   manifest: {
     name: 'PICON',
     short_name: 'PICON',
