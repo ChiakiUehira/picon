@@ -1,7 +1,12 @@
 <template>
-  <div v-if="currentEntry">
+  <v-dialog @input="onInput" :value="isOpenAddItemBottomSheet" fullscreen hide-overlay transition="dialog-bottom-transition">
     <v-card>
-      <v-subheader>General</v-subheader>
+      <v-toolbar dark color="primary">
+        <v-btn icon dark @click="onClose">
+          <v-icon>close</v-icon>
+        </v-btn>
+        <v-toolbar-title>新しいタスクを作成</v-toolbar-title>
+      </v-toolbar>
       <v-form>
         <v-container>
           <v-layout wrap>
@@ -67,24 +72,6 @@
               </v-combobox>
             </v-flex>
             <v-flex xs12>
-              <v-combobox
-                v-model="author"
-                chips
-                label="作成者"
-                box
-                disabled
-              >
-                <template v-slot:selection>
-                  <v-chip>
-                    <v-avatar>
-                      <img :src="author.thumbnail">
-                    </v-avatar>
-                    @{{ author.username }}
-                  </v-chip>
-                </template>
-              </v-combobox>
-            </v-flex>
-            <v-flex xs12>
               <v-textarea
                 v-model="description"
                 :disabled="isUpdating"
@@ -103,95 +90,84 @@
         <v-btn
           :loading="isUpdating"
           depressed
-          @click="onUpdate"
+          @click="onCreate"
           color="primary"
         >
-          Update
+          Create
         </v-btn>
       </v-card-actions>
     </v-card>
-  </div>
+  </v-dialog>
 </template>
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import dayjs from 'dayjs'
 export default {
-  data() {
+  data () {
     return {
-      entry: null,
+      _users: [],
       modal: false,
       isUpdating: false,
-      _users: [],
       name: '',
       datetime: null,
       description: null,
-      author: null,
       assignee: null,
       isCompleted: false,
     }
   },
-  methods: {
-    ...mapActions('app', [
-      'setCurrentPageName',
-    ]),
-    ...mapActions('lists', [
-      'setCurrentEntry',
-      'setEntryIsCompletedById',
-      'updateEntry'
-    ]),
-    ...mapActions('users', [
-      'getUsers',
-    ]),
-    onChange () {
-      if (this.isJoindCurrentList) {
-        setTimeout(() => {
-          this.setEntryIsCompletedById({
-            entry: this.currentEntry,
-            isCompleted: !this.currentEntry.isCompleted
-          })
-        }, 300);
-      }
-    },
-    onUpdate() {
-      this.isUpdating = true
-      this.updateEntry({
-        entry: this.entry,
-        payload: {
-          name: this.name,
-          datetime: this.datetime,
-          description: this.description,
-          isCompleted: this.isCompleted,
-          author: this.author,
-          assignee: this.assignee,
-        }
-      }).then(() => {
-        this.isUpdating = false
-      })
-    }
-  },
   computed: {
+    ...mapGetters('app', [
+      'isOpenAddItemBottomSheet'
+    ]),
     ...mapGetters('lists', [
-      'currentEntry',
-      'isJoindCurrentList'
+      'currentList'
     ]),
     ...mapGetters('users', [
       'users'
     ])
   },
-  async created () {
-    const id = this.$route.params.id
-    this._users = await this.getUsers()
-    this.setCurrentEntry(id).then(entry => {
-      this.entry = entry
-      this.name = entry.name
-      this.datetime = entry.datetime ? dayjs(new Date(entry.datetime.toDate())).format('YYYY-MM-DD') : null
-      this.description = entry.description
-      this.isCompleted = entry.isCompleted
-      this.author = entry.author
-      this.assignee = entry.assignee
-      this.setCurrentPageName(entry.list.name)
-    })
+  methods: {
+    ...mapActions('app', [
+      'closeAddItemBottomSheet'
+    ]),
+    ...mapActions('lists', [
+      'createEntry'
+    ]),
+    ...mapActions('users', [
+      'getUsers'
+    ]),
+    onInput () {
+      this.closeAddItemBottomSheet()
+    },
+    onClose () {
+      this.name = ''
+      this.datetime = ''
+      this.assignee = ''
+      this.description = ''
+      this.closeAddItemBottomSheet()
+    },
+    onCreate () {
+      this.isUpdating = true
+      this.createEntry({
+        list: this.currentList,
+        payload: {
+          name: this.name,
+          datetime: this.datetime,
+          assignee: this.assignee,
+          description: this.description
+        }
+      }).then(() => {
+        this.isUpdating = false
+        this.name = ''
+        this.datetime = ''
+        this.assignee = ''
+        this.description = ''
+        this.closeAddItemBottomSheet()
+      })
+    }
   },
+  async created () {
+    this._users = await this.getUsers()
+  }
 }
 </script>

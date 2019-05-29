@@ -103,8 +103,8 @@ export const actions = {
       name: payload.name,
       author: db.doc(`users/${rootGetters['app/currentUser'].id}`),
       isCompleted: false,
-      datetime: payload.datetime,
-      assignee: payload.assignee,
+      datetime: payload.datetime ? new Date(payload.datetime) : null,
+      assignee: payload.assignee ? db.doc(`users/${payload.assignee.id}`) : null,
       description: payload.description,
       list: db.doc(`lists/${list.id}`)
     })

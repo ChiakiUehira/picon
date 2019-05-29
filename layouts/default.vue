@@ -19,7 +19,7 @@
       <v-icon>add</v-icon>
     </v-btn>
     <app-add-list-dialog />
-    <app-add-item-bottom-sheet />
+    <app-add-item-dialog />
   </v-app>
 </template>
 
@@ -28,13 +28,13 @@ import { mapActions, mapGetters } from 'vuex'
 import AppNavigationDrawer from '~/containers/AppNavigationDrawer'
 import AppToolbar from '~/containers/AppToolbar'
 import AppAddListDialog from '~/containers/AppAddListDialog'
-import AppAddItemBottomSheet from '~/containers/AppAddItemBottomSheet'
+import AppAddItemDialog from '~/containers/AppAddItemDialog'
 export default {
   components: {
     AppNavigationDrawer,
     AppToolbar,
     AppAddListDialog,
-    AppAddItemBottomSheet,
+    AppAddItemDialog,
   },
   computed: {
     ...mapGetters('app', [

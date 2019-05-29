@@ -51,13 +51,11 @@ import { mapActions, mapGetters } from 'vuex'
 import AppNavigationDrawer from '~/containers/AppNavigationDrawer'
 import AppToolbar from '~/containers/AppToolbar'
 import AppAddListDialog from '~/containers/AppAddListDialog'
-import AppAddItemBottomSheet from '~/containers/AppAddItemBottomSheet'
 export default {
   components: {
     AppNavigationDrawer,
     AppToolbar,
     AppAddListDialog,
-    AppAddItemBottomSheet,
   },
   computed: {
     ...mapGetters('app', [
